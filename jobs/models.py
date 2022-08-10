@@ -2,7 +2,15 @@ from mongoengine import Document
 from mongoengine import StringField, EmailField, DateTimeField, BooleanField, ReferenceField, ListField
 
 
-class User(Document):
+class ApplicantUser(Document):
+    username = StringField()
+    password = StringField()
+    email = EmailField()
+    first_name = StringField()
+    last_name = StringField()
+
+
+class PosterUser(Document):
     username = StringField()
     password = StringField()
     email = EmailField()
@@ -15,20 +23,17 @@ class Job(Document):
     description = StringField(max=300)
     location = StringField()
     deadline = DateTimeField()
-    poster = ReferenceField(User)
+    poster = ReferenceField(PosterUser)
     contact_phone = StringField()
     contact_email = EmailField()
     is_archived = BooleanField()
 
 
-class JobApplicant(User):
-    applied_jobs = ListField(ReferenceField(Job))
+class JobApplication(Document):
+    applicant = ReferenceField(ApplicantUser)
+    job = ReferenceField(Job)
 
-
-class JobPoster(User):
-    posted_jobs = ListField(ReferenceField(Job))
-
-
+    meta = {'indexes': [('applicant', 'job')]}
 
 
 

@@ -11,11 +11,18 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-
+import mongoengine
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+DB_NAME = "JOBLIST"
+DB_USERNAME = "yash"
+DB_PASSWORD = "yash"
+DB_HOST_STRING = "mongodb://{username}:{password}@ac-b6xowor-shard-00-00.wec8bnq.mongodb.net:27017,ac-b6xowor-shard-00-01.wec8bnq.mongodb.net:27017,ac-b6xowor-shard-00-02.wec8bnq.mongodb.net:27017/?ssl=true&replicaSet=atlas-87una9-shard-0&authSource=admin&retryWrites=true&w=majority"
+DB_HOST = DB_HOST_STRING.format(username=DB_USERNAME, password=DB_PASSWORD)
 
+
+mongoengine.connect(db=DB_NAME, host=DB_HOST, username=DB_USERNAME, password=DB_PASSWORD)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -43,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

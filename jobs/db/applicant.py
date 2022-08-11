@@ -1,4 +1,4 @@
-import jwt as jwt
+import jwt
 from django.contrib.auth import hashers
 from jobs import settings
 from jobs.models import ApplicantUser
@@ -23,7 +23,7 @@ def signup(data):
 
 
 def login(data):
-    user = ApplicantUser.objects(username=data['username'])
+    user = ApplicantUser.objects(username=data['username']).first()
     if not hashers.check_password(data['password'], user.password):
         return {
             "code": 401,
@@ -31,23 +31,31 @@ def login(data):
         }
 
     payload = {"role": "applicant", "id": str(user.id)}
-    token = jwt.encode(payload, settings.SECRET_KEY, algorithm=['HS256'])
+    token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
 
     return {
         "code": 200,
         "data": {
-            "token": token.decode()
+            "token": token,
+            "id": str(user.id)
         }
     }
 
 
 def get_applicant(id):
-
-    return None
-
-
-def get_job_applicant():
     pass
+
+
+def get_job_applicant(id):
+    app = ApplicantUser.objects(id=id).first()
+
+    return {
+        "code": 200,
+        "data": {
+            "name": app.first_name + " " + app.last_name,
+            "email": app.email
+        }
+    }
 
 
 

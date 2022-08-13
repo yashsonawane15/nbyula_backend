@@ -12,7 +12,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import mongoengine
+import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+django_heroku.settings(locals())
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 DB_NAME = "JOBLIST"

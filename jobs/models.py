@@ -22,16 +22,21 @@ class Job(Document):
     title = StringField()
     description = StringField(max=300)
     location = StringField()
-    deadline = DateTimeField()
     poster = ReferenceField(PosterUser)
     contact_phone = StringField()
     contact_email = EmailField()
-    is_archived = BooleanField()
+
+
+class JobListing(Document):
+    job = ReferenceField(Job)
+    deadline = DateTimeField()
+    status = StringField()
 
 
 class JobApplication(Document):
     applicant = ReferenceField(ApplicantUser)
-    job = ReferenceField(Job)
+    job_listing = ReferenceField(JobListing)
+    applied_date = DateTimeField()
 
     meta = {'indexes': [('applicant', 'job')]}
 

@@ -1,7 +1,7 @@
 from django.views import View
 from django.http import JsonResponse
 from .db import applicant
-from .forms import ApplicantSignupForm, ApplicantLoginForm
+from .forms import ApplicantSignupForm, ApplicantLoginForm, ApplyJobForm
 from.validation import validate_payload, authenticate
 from django.views.decorators.csrf import csrf_exempt
 
@@ -55,5 +55,48 @@ class JobApplicantsView(View):
     @validate_payload
     def post(self, request, *args, **kwargs):
         pass
+
+
+class AppliedJobsView(View):
+
+    @authenticate
+    def get(self, request, *args, **kwargs):
+        userid = kwargs['id']
+        response = applicant.get_applied_jobs(userid)
+
+        return JsonResponse(response['data'], status=response['code'])
+
+
+class ApplyJob(View):
+    forms = {
+        'POST': ApplyJobForm
+    }
+
+    @authenticate
+    @validate_payload
+    def post(self, request, *args, **kwargs):
+        app_id = kwargs['id']
+
+        response = applicant.apply_job(app_id, self.payload)
+
+        return JsonResponse(response['data'], status=response['code'])
+
+
+class ApplicantListings(View):
+
+
+    @authenticate
+    def get(self, request, *args, **kwargs):
+        response = applicant.get_listings()
+
+        return JsonResponse(response['data'], status=response['code'])
+
+
+
+
+
+
+
+
 
 

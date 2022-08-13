@@ -7,7 +7,11 @@ applicant_urls = [
     path('applicant', views.JobApplicantsView.as_view()),
     path('applicant/signup', views.ApplicantSignup.as_view()),
     path('applicant/login',views.ApplicantLogin.as_view()),
+    path('applicant/listings', views.ApplicantListings.as_view()),
+    path('applicant/apply', views.ApplyJob.as_view()),
+    path('applicant/applied', views.ApplicantJobs.as_view()),
     path('applicant/<id>', views.JobApplicantView.as_view()),
+    path('applicant/applied/<userid>', views.AppliedJobsView.as_view())
 
 ]
 

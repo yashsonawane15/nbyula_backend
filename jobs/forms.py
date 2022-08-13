@@ -29,4 +29,7 @@ class ApplicantLoginForm(Form):
     password = CharField()
 
 
+class ApplyJobForm(Form):
+    jobid = CharField()
+
 

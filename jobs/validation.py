@@ -51,8 +51,33 @@ def authenticate(func):
 
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+            view.id = payload['id']
         except InvalidSignatureError:
             return JsonResponse({"msg": "You don't have permission to do that"}, status=403)
 
         return func(*args, **kwargs)
     return wrapper
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
